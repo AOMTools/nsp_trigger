@@ -1,0 +1,45 @@
+README FILE IN CONSTRUCTION
+
+###########################
+EXPERIMENTAL PAREMETERS
+###########################
+
+INIT_DEVICES.PY:
+
+w810eom: starting eom810 freq, which is the freq/length of cavity.
+
+        120: is found to be resonant with D2line+35 MHz up.370.01335
+
+        Subject to change. Only required to be in the vicinity of the supposed
+        value as the lock will find the correct one.
+
+MAIN.PY:
+
+w_ref:  probe freq value that is used in checking transmission stage.
+        supposed to be resonant with w810eom/cavity mentioned above
+        360: =D2 line F=2->F=3
+
+w_ref_res:  freq of probe to check the freq of cavity in the checkspectrum stage
+            supposed to be equal to w_ref
+
+w_ref_ext:  freq of probe to check the ext.
+            when set, should give freq of probe equal to D2+ACstarkshift
+
+EX: Case 1: To set cavity resonant with D2+35MHz:
+            w810eom=150
+            w_ref=395
+            w_ref_ext:395
+            w_ref_res=395
+
+    Case 2: To set the cavity resonant with D2+25MHz:
+            w810eom=150
+            w_ref=385
+            w_ref_ext:395
+            w_ref_res=385
+
+
+Tref:       Value of Tranmission of probe/780nm used as a target for the transverse lock
+tolerance:  Tolerance of Tref for the transverse lock
+
+Tref_810:   Similar to the above but for 810
+tolerance_810:

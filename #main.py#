@@ -1,0 +1,260 @@
+import numpy as np
+import time
+from init_devices import *
+import transverse_lock as tl
+import Errors
+import subprocess
+import time
+import sys
+from ds_Comm import dsComm
+from printstyle import *
+################################################
+#PAREMETER DEFNITIION
+probe_freq_range=np.arange(10)
+w_ref=0 #ref probe freq for locking and checking
+
+Tref=2300
+tolerance=0.05
+#################################################
+#INITIATE Dinosaur_seeker connection
+#################################################
+ds1=dsComm()
+#################################################
+
+#################################################
+#Saving
+#################################################
+name_exp="default"
+date_exp="{:%Y_%m_%d_%H%M}".format(datetime.datetime.now())
+name_exp=date_exp
+#################################################
+trig_num=[]
+Ext=[]
+std_Ext=[]
+freq=[]
+t_exp=[]#time conduct exp
+#################################################
+def set_probe_freq(w):
+    '''
+    set probe freq to w
+    '''
+    print('Set probe freq to ',w)
+
+
+def get_Ext(tn):
+    '''
+    Retrieve EXT with probe freq at w via dinosaur_seeker
+    Output: (ext,num_trig)
+        ext: ext level
+        num_trig: number of triggered atoms
+    '''
+    result=ds1.get_exp_result_trignum(trignum=tn)
+    return result
+
+def getPower(analogIO,channel=0,average=100):
+    #Get the P810 transmission power on photodetector
+    power=np.zeros(100)
+    channel=0
+    for i in range(average):
+        power[i]=analogIO.get_voltage(channel)
+    return (np.mean(power),np.std(power))
+
+def setV(Vx,Vy):
+    '''
+    set an absolute voltage to piezo by delegating to cavity_retreat controller
+    '''
+    #socket.send("SetVolt5 0")
+    #message = socket.recv()
+    command1="SetVolt5 "+str(Vy)
+    command2="SetVolt6 "+str(Vx)
+    socket.send(command1)
+    message=socket.recv()
+    socket.send(command2)
+    message=socket.recv()
+
+
+def probe_dds_switchmode(smode=0):
+    #switching mode of probe dds via bash command to cat a file to dds_encode
+    #smode=0: continuous
+    #smode=1: onoff for pattern_generator triggering process
+    if smode==0:
+        print('DDS Probe is set to Continous mode')
+        bashCommand="cat ../apps2/Q37_2.script | ./dds_encode -d /dev/ioboards/dds_QO0037"
+
+    elif smode==1:
+        print('DDS Probe is set to Triggering mode')
+        bashCommand="cat ../apps2/Q37_onoff.script | ./dds_encode -d /dev/ioboards/dds_QO0037"
+
+    process=subprocess.Popen(bashCommand,cwd='/home/qitlab/programs/usbdds/apps',stdout=subprocess.PIPE,shell=True)
+    (output,error)=process.communicate()
+    print(error)
+
+def mot_dds_switchmode(smode=0):
+    #switching mode of probe dds via bash command to cat a file to dd0s_encode
+    #smode=0: continuous
+    #smode=1: onoff for pattern_generator triggering process
+    if smode==0:
+        print('DDS MOT is set to Continous mode')
+        bashCommand="cat ../apps2/Q19_2.script | ./dds_encode -d /dev/ioboards/dds_QO0019"
+
+    elif smode==1:
+        print('DDS MOT is set to Triggering mode')
+        bashCommand="cat ../apps2/Q19_onoff.script | ./dds_encode -d /dev/ioboards/dds_QO0019"
+
+    process=subprocess.Popen(bashCommand,cwd='/home/qitlab/programs/usbdds/apps',stdout=subprocess.PIPE,shell=True)
+    (output,error)=process.communicate()
+    print(error)
+def check_transmission():
+    print('Preparing Transmission Check')
+    preparation_check()
+    print('Checking Tranmission')
+    result=0
+    time.sleep(1)
+    t=miniusb.get_countstat()
+    tdiff=t-Tref
+
+    t810=getPower(analogIO,average=150)
+    tdiff_810=t810-Tref_810
+
+    if t<Tref*(1-tolerance) or t>Tref*(1+tolerance):
+        print('Transmission Test 780 FAIL')
+        result=0
+    elif t810<Tref_810*(1-tolerance_810) or t810>Tref_810*(1+tolerance_810):
+        print('Tranmission Test 810 FAIL')
+        result=0
+    else:
+        print('Tranmission Test PASSES')
+        result=1
+    return result
+
+def check_Ext():
+    Ext_ref=40
+    print('\x1b[0;33;40m'+'Preparing Ext Check'+'\x1b[0m')
+    preparation_Ext()
+    print('\x1b[0;33;40m'+'Checking Ext'+'\x1b[0m')
+    ext=get_Ext()[1]
+    print('Extinction level is ',ext)
+    result=0
+    if ext<Ext_ref:
+        print('Fail Extinction Check')
+    else:
+        result=1
+        print('Pass')
+
+    return result
+
+
+def lock_trans():
+
+    result=check_transmission() #check if cavity thermal drift causes changes in transmission
+    if result==0: #Fail checking and now proceed to locking
+        result=tl.lock(Tref,tolerance)
+    return result
+
+def lock_Ext():
+
+    result=check_Ext() #check if Ext is still the same
+    if result==0:#fail checking and now proceed to locking
+        printstyle_stage2('Proceed to Ext Locking')
+        #result=lock_Ext() # has not implemented ext lock yet
+    result=1
+    return result
+
+def preparation_check():
+    probe_dds_switchmode()
+    mot_dds_switchmode()
+    dds_mot.off()
+    time.sleep(1)
+
+def preparation_Ext():
+    #should switch back to smode=1 for main exp later
+    probe_dds_switchmode()
+    mot_dds_switchmode()
+    time.sleep(2)
+
+def check():
+    '''
+    Perform hygiene check on experiment
+
+    '''
+    print('\t'+'\x1b[0;30;43m'+'Checking Stage'+'\x1b[0m')
+    print('#'*40)
+    result_lock_trans=1
+
+    result_lock_trans=lock_trans()
+
+
+    result_lock_Ext=lock_Ext()
+
+    if (result_lock_trans*result_lock_Ext)==0:
+        printstyle_warning('Fail locking')
+        raise Errors.ExperimentalError()
+    else:
+        print('Succeed checking and locking')
+
+def main_exp(w):
+    probe_dds_switchmode(smode=1)
+    #setprobe freq here
+    print('#'*40)
+    printstyle_stage1('Main Experiment in Progress')
+    print('#'*40)
+
+
+    freq.append(w)
+    t.append(int(time.time()))
+    result=get_Ext()
+    trig_num.append(result[0])
+    Ext.append(result[1])
+    std_Ext.append(result[2])
+    time.sleep(1)
+    #print("Experiment Results: ",result)
+    print("Number of Triggering cases:")
+    print(trig_num)
+    print("Extinction result: ")
+    print(Ext)
+    print("Extinction std: ")
+    print(std_Ext)
+
+def party_cleanup():
+    print('#'*40)
+    print('\t'+'\x1b[0;30;43m'+'Pos-Party Cleaning'+'\x1b[0m')
+    print('#'*40)
+    probe_dds_switchmode()
+    mot_dds_switchmode()
+    print('Ending Experiment')
+    #return_initial()
+
+def return_initial():
+    print('Revert Cavity Piezo to initial conditions')
+    print(V0x,V0y)
+    setV(V0x,V0y)
+    print('Revert DDS to initial conditions')
+    probe_dds_switchmode()
+    mot_dds_switchmode()
+
+def start():
+    print('#'*40)
+    printstyle_stage1('Starting Experiment')
+    s=time.strftime("%a, %d %b %Y %H:%M:%S", time.localtime())
+    print(s)
+    print('#'*40)
+
+    freq_range=np.arange(11)
+    for i,f in enumerate(freq_range):
+        #check()
+        main_exp(f)
+
+
+if __name__=='__main__':
+    try:
+        start()
+    except Errors.ExperimentalError:
+        printstyle_warning('Experimental Error')
+        return_initial()
+    except KeyboardInterrupt:
+        return_initial()
+    except:
+        printstyle_warning('UNKNOWN ERRORS')
+        return_initial()
+    finally:
+        party_cleanup()

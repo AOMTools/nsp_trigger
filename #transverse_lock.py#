@@ -1,0 +1,42 @@
+#!/usr/bin/python
+#transverse lock
+from CQTdevices import *
+import time
+import zmq
+from sys import exit
+import subprocess as sp
+import timeit
+#from Errors import *
+import logging
+from init_devices import *
+import numpy as np
+#from hill_climbing import *
+from hill_climbing import *
+def lock(Tref,tolerance=0.03):
+    print('Start transverse locking')
+    t=miniusb.get_countstat()
+    t810=getPower(analogIO,average=150)
+    (Vxtrack,Vytrack,Ttrack,result)=hill_climbing(V0x,V0y,Tref,tolerance)
+
+    '''
+    lock_result.append(result)
+    T_lock.append(round(Ttrack[-1],4))
+    Vxtrack_log.append(round(Vxtrack[-1],3))
+    Vytrack_log.append(round(Vytrack[-1],3))
+    '''
+    f=open('lock_trans.log','ab')
+    log_track=np.column_stack((Vxtrack,Vytrack,Ttrack))
+    print(log_track)
+    np.savetxt(f,log_track,fmt='%1.3f')
+    f.write('Lock result: '+ str(result))
+    f.write('\n')
+    f.write("#"*20)
+    f.write('\n')
+    f.close()
+    return result
+
+def lock_Ext():
+    print('Start transverse lock on EXT')
+    f=open('lock_ext.log','ab')
+
+    pass
