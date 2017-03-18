@@ -1,0 +1,84 @@
+Target T780: 700.000 	 Tolerance 0.08 ~ 56.000
+Target T810: 0.062 	 Tolerance 0.05 ~ 0.003
+Time start: Wed, 08 Mar 2017 16:44:28
+Initial Transmission: T780 481.181 T810 0.061 
+
+T780 Lock 
+8.260 -4.900 480.180
+8.280 -4.920 579.040
+8.290 -4.920 631.680
+8.300 -4.920 668.140
+Lock result: 1
+T810 Lock
+8.300 -4.920 0.062
+Lock result: 2
+
+T780 and T810 after locking 657.653 0.062 
+
+
+####################
+Target T780: 700.000 	 Tolerance 0.08 ~ 56.000
+Target T810: 0.062 	 Tolerance 0.05 ~ 0.003
+Time start: Wed, 08 Mar 2017 16:46:27
+Initial Transmission: T780 706.832 T810 0.062 
+
+Do not need to lock 
+Locking result: 1 
+T780 and T810 after locking 706.832 0.062 
+
+
+####################
+Target T780: 700.000 	 Tolerance 0.08 ~ 56.000
+Target T810: 0.062 	 Tolerance 0.05 ~ 0.003
+Time start: Wed, 08 Mar 2017 16:51:55
+Initial Transmission: T780 839.691 T810 0.062 
+
+T780 Lock 
+8.300 -4.920 875.840
+8.280 -4.920 817.800
+8.270 -4.910 807.400
+8.260 -4.900 762.220
+8.250 -4.890 742.460
+Lock result: 1
+T810 Lock
+8.250 -4.890 0.062
+Lock result: 2
+
+T780 and T810 after locking 755.792 0.062 
+
+
+####################
+Target T780: 700.000 	 Tolerance 0.08 ~ 56.000
+Target T810: 0.062 	 Tolerance 0.05 ~ 0.003
+Time start: Wed, 08 Mar 2017 16:54:16
+Initial Transmission: T780 798.104 T810 0.062 
+
+T780 Lock 
+8.250 -4.890 812.900
+8.240 -4.880 760.100
+8.230 -4.880 736.360
+Lock result: 1
+T810 Lock
+8.230 -4.880 0.062
+Lock result: 2
+
+T780 and T810 after locking 743.292 0.062 
+
+
+####################
+Target T780: 700.000 	 Tolerance 0.08 ~ 56.000
+Target T810: 0.062 	 Tolerance 0.05 ~ 0.003
+Time start: Wed, 08 Mar 2017 16:55:55
+Initial Transmission: T780 756.357 T810 0.062 
+
+T780 Lock 
+8.230 -4.880 753.600
+Lock result: 2
+T810 Lock
+8.230 -4.880 0.062
+Lock result: 2
+
+T780 and T810 after locking 751.702 0.063 
+
+
+####################

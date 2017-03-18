@@ -1,0 +1,84 @@
+Target T780: 500.000 	 Tolerance 0.08 ~ 40.000
+Target T810: 0.034 	 Tolerance 0.05 ~ 0.002
+Time start: Thu, 16 Feb 2017 14:43:12
+Initial Transmission: T780 507.536 T810 0.035 
+
+Do not need to lock 
+Locking result: 1 
+T780 and T810 after locking 507.536 0.035 
+
+
+####################
+Target T780: 500.000 	 Tolerance 0.08 ~ 40.000
+Target T810: 0.034 	 Tolerance 0.05 ~ 0.002
+Time start: Thu, 16 Feb 2017 14:47:06
+Initial Transmission: T780 497.221 T810 0.034 
+
+Do not need to lock 
+Locking result: 1 
+T780 and T810 after locking 497.221 0.034 
+
+
+####################
+Target T780: 500.000 	 Tolerance 0.08 ~ 40.000
+Target T810: 0.034 	 Tolerance 0.05 ~ 0.002
+Time start: Thu, 16 Feb 2017 14:50:51
+Initial Transmission: T780 481.485 T810 0.034 
+
+Do not need to lock 
+Locking result: 1 
+T780 and T810 after locking 481.485 0.034 
+
+
+####################
+Target T780: 500.000 	 Tolerance 0.08 ~ 40.000
+Target T810: 0.034 	 Tolerance 0.05 ~ 0.002
+Time start: Thu, 16 Feb 2017 14:51:45
+Initial Transmission: T780 478.454 T810 0.034 
+
+Do not need to lock 
+Locking result: 1 
+T780 and T810 after locking 478.454 0.034 
+
+
+####################
+Target T780: 500.000 	 Tolerance 0.08 ~ 40.000
+Target T810: 0.034 	 Tolerance 0.05 ~ 0.002
+Time start: Thu, 16 Feb 2017 14:55:39
+Initial Transmission: T780 454.097 T810 0.034 
+
+T780 Lock 
+8.020 -4.450 453.180
+8.010 -4.460 458.080
+8.000 -4.470 491.740
+Lock result: 1
+T810 Lock
+8.000 -4.470 0.034
+Lock result: 2
+
+T780 and T810 after locking 481.292 0.034 
+
+
+####################
+Target T780: 500.000 	 Tolerance 0.08 ~ 40.000
+Target T810: 0.034 	 Tolerance 0.05 ~ 0.002
+Time start: Thu, 16 Feb 2017 14:57:17
+Initial Transmission: T780 482.085 T810 0.034 
+
+Do not need to lock 
+Locking result: 1 
+T780 and T810 after locking 482.085 0.034 
+
+
+####################
+Target T780: 500.000 	 Tolerance 0.08 ~ 40.000
+Target T810: 0.034 	 Tolerance 0.05 ~ 0.002
+Time start: Thu, 16 Feb 2017 15:01:09
+Initial Transmission: T780 476.897 T810 0.034 
+
+Do not need to lock 
+Locking result: 1 
+T780 and T810 after locking 476.897 0.034 
+
+
+####################

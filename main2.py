@@ -9,37 +9,37 @@ import time
 import datetime
 import sys,traceback
 import os
-from ds_Comm import dsComm
+from ds_Comm import dsComm #dinosaur seeker
 from printstyle import *
 from fitter import *
 from misc import *
 
 ################################################
 #PAREMETER DEFNITIION
-w_ref=405 #ref probe freq for checking transmisison
+w_ref=384 #ref probe freq for checking transmisison
 #360 is for 780probe resonant with D2
-w_ref_ext=405 # ref to check ext
+w_ref_ext=384 # ref to check ext
 
-w_ref_res=405# freq of probe that chosen for the cavity to be resoant with
+w_ref_res=384# freq of probe that chosen for the cavity to be resoant with
             #used for checking spectrum scan
 probe_freq_range=w_ref+np.asarray(freq_range_gen())
-probe_freq_range=w_ref+np.linspace(-10,10,3)
-#probe_freq_range=w_ref+np.asarray([0])
+#probe_freq_range=w_ref+np.linspace(-10,10,11)
+probe_freq_range=np.asarray([504,504,504,504,504,504,504,504])
 print(probe_freq_range)
 #print(probe_freq_range)
 
 #Tref=1050
-Tref=430
-tolerance=0.08
+Tref=900
+tolerance=0.06
 
 #for 600amp 2mW Pin810
 #Tref_810=0.024
 # 2.6mW 810: Tref_810=0.0325
 
-Tref_810=0.032
-tolerance_810=0.05
+Tref_810=0.058
+tolerance_810=0.04
 
-tn=40 #Number of triggered atoms taken for one freq point
+tn=10 #Number of triggered atoms taken for one freq point
 #################################################
 #INITIATE Dinosaur_seeker connection
 #################################################
@@ -53,7 +53,7 @@ status_preparation=0
 
 def master_saving_folder_gen():
     date_folder="{:%Y_%m_%d_%H_%M}".format(datetime.datetime.now())
-    mypath = '/home/qitlab/exp_data/nsp_trigger/'+date_folder
+    mypath = '/home/qitlab/programs/nsp_trigger/exp_data/'+date_folder
     if not os.path.isdir(mypath):
         os.makedirs(mypath)
     return mypath
@@ -71,8 +71,12 @@ Ext=[]
 std_Ext=[]
 freq=[]
 t_exp=[]#time conduct exp
+
 Tnoatom=[]
 std_Tnoatom=[]
+
+Rnoatom=[]
+std_Rnoatom=[]
 T810=[]
 Vx_exp=[]#Vx values just before main exp
 Vy_exp=[]
@@ -86,7 +90,8 @@ data_to_save=(t_exp,freq,trig_num,Ext,std_Ext,Tnoatom,std_Tnoatom,Vx_exp,Vy_exp,
 #Report information
 tlock=[]
 
-num_lock=0# number of lock
+
+
 
 
 def report():
@@ -182,6 +187,21 @@ def probe_dds_switchmode(smode=0):
     process=subprocess.Popen(bashCommand,cwd='/home/qitlab/programs/usbdds/apps',stdout=subprocess.PIPE,shell=True)
     (output,error)=process.communicate()
 
+def sideprobe_dds_switchmode(smode=0):
+    #switching mode of probe dds via bash command to cat a file to dds_encode
+    #smode=0: continuous
+    #smode=1: onoff for pattern_generator triggering process
+    if smode==0:
+        print('DDS Probe is set to Continuous mode')
+        bashCommand="cat ../apps2/Q37_2.script | ./dds_encode -d /dev/ioboards/dds_QO0037"
+
+    elif smode==1:
+        print('DDS Probe is set to Triggering mode')
+        bashCommand="cat ../apps2/Q37_sp_onoff.script | ./dds_encode -d /dev/ioboards/dds_QO0037"
+
+    process=subprocess.Popen(bashCommand,cwd='/home/qitlab/programs/usbdds/apps',stdout=subprocess.PIPE,shell=True)
+    (output,error)=process.communicate()
+
 def pattern_switchmode(smode=0):
     if smode==0:
         print('Pattern is set to  NON-Triggering mode')
@@ -269,7 +289,7 @@ def check_Ext():
     return result
 
 
-def lock_trans():
+def lock_trans(f=0,w810=0):
     print('Preparing Transmission Check')
     preparation_check()
     global master_path
@@ -280,7 +300,7 @@ def lock_trans():
         result=tl.lock(Tref,tolerance,Tref_810,tolerance_810,V0x,V0y,mypath=master_path)
     '''
     (V0x,V0y)=get_initV()
-    result=tl.lock(Tref,tolerance,Tref_810,tolerance_810,V0x,V0y,mypath=master_path)
+    result=tl.lock(Tref,tolerance,Tref_810,tolerance_810,V0x,V0y,mypath=master_path,f780=f,w810sb_e=w810)
     return result
 
 def lock_Ext():
@@ -309,7 +329,16 @@ def preparation_Ext(w):
     mot_dds_switchmode(smode=1)
     time.sleep(2)
 
-def check(c=0):
+def preparation_sp(w):
+    #should switch back to smode=1 for main exp later
+    #prepartion for sideprobe
+    quadcoil_switchmode(smode=1)
+    sideprobe_dds_switchmode(smode=1)
+    set_probe_freq(w)
+    mot_dds_switchmode(smode=1)
+    time.sleep(2)
+
+def check(c=0,w=0,w810=0):
     '''
     Perform hygiene check on experiment
     c=0: check both EXT and Transmission
@@ -330,10 +359,10 @@ def check(c=0):
     print
 
     if c==0:
-        result_lock_trans=lock_trans()
+        result_lock_trans=lock_trans(f=w,w810=w810)
         result_lock_Ext=lock_Ext()
     elif c==1:
-        result_lock_trans=lock_trans()
+        result_lock_trans=lock_trans(f=w,w810=w810)
         result_lock_Ext=1
     elif c==2:
         result_lock_trans=1
@@ -392,16 +421,21 @@ def emptycav(f):
     probe_dds_switchmode()
     mot_dds_switchmode()
     dds_mot.off()
-    time.sleep(5)
+    dds_mot2.off()
+    time.sleep(2)
     freq.append(f)
-    tcount,stdt=miniusb.get_countstat(average=100,c=1)
+    tcount,stdt=miniusb.get_countstat(average=100,c=1,d=0)
+    Rcount,stdR=miniusb.get_countstat(average=100,c=1,channel=2,d=0)
     print('Tranmission detected: %d' %tcount)
+    print('Reflection detected: %d' %Rcount)
     Tnoatom.append(tcount)
     std_Tnoatom.append(stdt)
+    Rnoatom.append(Rcount)
+    std_Rnoatom.append(stdR)
 
 def party_cleanup():
     print('#'*40)
-    print('\t'+'\x1b[0;30;43m'+'Pos-Party Cleaning'+'\x1b[0m')
+    print('\t'+'\x1b[0;30;43m'+'Post-Party Cleaning'+'\x1b[0m')
     print('#'*40)
     probe_dds_switchmode()
     mot_dds_switchmode()
@@ -423,9 +457,13 @@ def return_initial():
 
 def saving():
     #date_folder="{:%Y_%m_%d}".format(datetime.datetime.now())
+
     printstyle_stage1('Gathering and Saving useful data')
+    #locksave=np.column_stack((atlockfreq,T780lbf,T780laft,T810lbf,T810laft,Vxbfl,Vxafl,Vybfl,Vyafl,ls780,ls810,tsl,lockdu))
+    lock_stat_filename=master_path+'/'+'lockstat.dat'
+    resave=np.column_stack((freq,Tnoatom,std_Tnoatom,Rnoatom,std_Rnoatom))
     try:
-        resave=np.column_stack((freq,Tnoatom,std_Tnoatom))
+        resave=np.column_stack((freq,Tnoatom,std_Tnoatom,Rnoatom,std_Rnoatom))
     except ValueError as e:
 
         s_data=[]
@@ -436,7 +474,13 @@ def saving():
             while np.size(i)>min_size:
                 i.pop()
     finally:
-        np.savetxt(master_path+'/'+'emptycavspec.dat',resave,fmt='%1.3f %1.3f %1.3f')
+        np.savetxt(master_path+'/'+'emptycavspec.dat',resave,fmt='%1.3f %1.3f %1.3f %1.3f %1.3f')
+        with open(lock_stat_filename,'w') as f:
+            #f.write("atlockfreq,T780lbf,T780laft,T810lbf,T810laft,Vxbfl,Vxafl,Vybfl,Vyafl,ls780,ls810,tsl,lockdu")
+
+            f.write('{:^10} {:^10} {:^10} {:^10} {:^10} {:^10} {:^10} {:^10} {:^10} {:^10} {:^10} {:^10} {:^15} {:^10}\n'.format('freq','T780lbf','T780laft','T810lbf','T810laft','Vxbfl','Vxafl','Vybfl','Vyafl','ls780','ls810','w810sb','tsl','lockdu'))
+            for i in range(len(tl.T780lbf)):
+                f.write('{:^10} {:^10.2f} {:^10.2f} {:^10.2f} {:^10.2f} {:^10} {:^10} {:^10} {:^10} {:^10} {:^10} {:^10} {:^15s} {:^10}\n'.format(tl.atlockfreq[i],tl.T780lbf[i],tl.T780laft[i],tl.T810lbf[i],tl.T810laft[i],tl.Vxbfl[i],tl.Vxafl[i],tl.Vybfl[i],tl.Vyafl[i],tl.ls780[i],tl.ls810[i],tl.w810sb[i],tl.tsl[i],tl.lockdu[i]))
 
 
 def trace_saving_folder_gen(f,master_path):
@@ -531,8 +575,9 @@ def checkspectrum():
         print('Adjusting Cavity length...')
         currentf=int(w_810.get_freq())/1000
         print(currentf)
-        print('To Cavity length: %d' %(currentf+delf))
-        w_810.slow_set_freq(currentf+delf,5)
+        print('To Cavity length: %d' %(currentf-delf))
+        #currentf - delf if locked to the -1 sd. eom freq increase->decrease in 810 freq
+        w_810.slow_set_freq(currentf-delf,5)
     else:
         print('Cavity Length is as expected')
         result=2
@@ -564,31 +609,32 @@ def start():
     num_pass=0
 
     for i,f in enumerate(probe_freq_range):
-        if i%3==0:
+        if i%5==0:
             result_checkspectrum=0
             re=0
             tl1=time.time()
             while re*result_checkspectrum!=4:
                 result_checkspectrum=checkspectrum()
-                re=check(c=1)
+                #result_checkspectrum=2
+                w810=int(w_810.get_freq())
+                re=check(c=1,w=f,w810=w810)
 
 
 
-
-            check(c=2)#ext check
+            #check(c=2,w=f)#ext check
             tl2=time.time()
             tlock.append(tl1-tl2)
     # if the flow of the program reach this point, it means that exp passes the
     # checks.
 
         (Vx_checkpoint,Vy_checkpoint)=get_initV()
-
-        if i%3==1:
+        '''
+        if i%5==1:
             #chosen such that the sepctrum scan conducted after 1 turn of no locking
             spectrum_scan(savemode=1)
-
+        '''
         main_exp(f)
-        #emptycav(f)
+        emptycav(f)
     saving()
     tend=time.strftime("%a, %d %b %Y %H:%M:%S", time.localtime())
     tend_f=time.time()

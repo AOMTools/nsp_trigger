@@ -20,15 +20,24 @@ analogIO=AnalogComm(analogIO_port)
 
 #Initialize DDS
 ##############################################################################################
+#dds_QO0037 channel 0 for probe beam from the cavity
+#dds_QO0037 channel 1 for the sidepumper, channel 1 of dds_Q37
 dds_probe_port='/dev/ioboards/dds_QO0037'
 channel_probe=0
 dds_probe=DDSComm(dds_probe_port,channel_probe)
 
+dds_sideprobe_port='/dev/ioboards/dds_QO0037'
+channel_sideprobe=1
+dds_sideprobe=DDSComm(dds_sideprobe_port,channel_sideprobe)
 
 #dds channel for REPUMP
 dds_mot_port='/dev/ioboards/dds_QO0019'
 channel_mot=0
 dds_mot=DDSComm(dds_mot_port,channel_mot)
+
+dds_mot2_port='/dev/ioboards/dds_QO0019'
+channel_mot2=1
+dds_mot2=DDSComm(dds_mot2_port,channel_mot2)
 
 dds810_port='/dev/ioboards/dds_QO0062'
 channel_810=0
@@ -36,10 +45,10 @@ dds_810=DDSComm(dds810_port,channel_810)
 
 init_power=600
 
-amplmot=500
+amplmot=520
 amplprobe=70
 
-w810eom=95
+w810eom=460
 #130 or 120 is for 810 to be resonant with 780D2
 ##############################################################################################
 
@@ -65,9 +74,9 @@ w_probe.set_freq(390)
 w_probe.set_power(2)
 
 #Windfreak Communication for Probe freq
-w_810_port='/dev/ttyACM7'
+w_810_port='/dev/ttyACM5'
 w_810=WindFreakUsb2(w_810_port,initfreq=w810eom)
-w_810.slow_set_freq(w810eom,5)
+w_810.slow_set_freq(w810eom,3)
 ##############################################################################################
 #Setup communication with Dinosaur_seeker
 ##############################################################################################

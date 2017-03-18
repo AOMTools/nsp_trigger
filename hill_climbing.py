@@ -182,6 +182,9 @@ def hill_climbing(V0x,V0y,Tref,tolerance,m=0):
     #to track position of cavity when moving during the locking
     #process
     #Ttrack: tracking the transmission
+    #result=0: lock Fail
+    #result=1: Lock and Succeed
+    #result=2: do not need to lock
     Vxtrack=[]
     Vytrack=[]
     Ttrack=[]
@@ -200,9 +203,7 @@ def hill_climbing(V0x,V0y,Tref,tolerance,m=0):
     tdiff=t-Tref
     i=0
     result=2
-    #result=0: lock Fail
-    #result=1: Lock and Succeed
-    #result=2: do not need to lock
+
     if abs(tdiff)>(tolerance*Tref):
         print("Not at the target")
         print("Tcount: ",t)

@@ -1,0 +1,158 @@
+Target T780: 600.000 	 Tolerance 0.06 ~ 36.000
+Target T810: 0.058 	 Tolerance 0.04 ~ 0.002
+Time start: 10:31:26
+Initial Transmission: T780 599.268 T810 0.058 
+
+Do not need to lock 
+Locking result: 1 
+Finished at Mon, 13 Mar 2017 10:31:26
+Locking duration 0 seconds
+T780 and T810 after locking 599.268 0.058 
+
+
+####################
+Target T780: 600.000 	 Tolerance 0.06 ~ 36.000
+Target T810: 0.058 	 Tolerance 0.04 ~ 0.002
+Time start: 10:35:49
+Initial Transmission: T780 612.135 T810 0.058 
+
+Do not need to lock 
+Locking result: 1 
+Finished at Mon, 13 Mar 2017 10:35:49
+Locking duration 0 seconds
+T780 and T810 after locking 612.135 0.058 
+
+
+####################
+Target T780: 600.000 	 Tolerance 0.06 ~ 36.000
+Target T810: 0.058 	 Tolerance 0.04 ~ 0.002
+Time start: 10:39:49
+Initial Transmission: T780 599.835 T810 0.058 
+
+Do not need to lock 
+Locking result: 1 
+Finished at Mon, 13 Mar 2017 10:39:49
+Locking duration 0 seconds
+T780 and T810 after locking 599.835 0.058 
+
+
+####################
+Target T780: 600.000 	 Tolerance 0.06 ~ 36.000
+Target T810: 0.058 	 Tolerance 0.04 ~ 0.002
+Time start: 10:40:41
+Initial Transmission: T780 608.000 T810 0.058 
+
+Do not need to lock 
+Locking result: 1 
+Finished at Mon, 13 Mar 2017 10:40:41
+Locking duration 0 seconds
+T780 and T810 after locking 608.000 0.058 
+
+
+####################
+Target T780: 600.000 	 Tolerance 0.06 ~ 36.000
+Target T810: 0.058 	 Tolerance 0.04 ~ 0.002
+Time start: 10:44:52
+Initial Transmission: T780 573.031 T810 0.057 
+
+Do not need to lock 
+Locking result: 1 
+Finished at Mon, 13 Mar 2017 10:44:52
+Locking duration 0 seconds
+T780 and T810 after locking 573.031 0.057 
+
+
+####################
+Target T780: 600.000 	 Tolerance 0.06 ~ 36.000
+Target T810: 0.058 	 Tolerance 0.04 ~ 0.002
+Time start: 10:48:45
+Initial Transmission: T780 538.527 T810 0.057 
+
+T780 Lock 
+8.340 -5.070 547.280
+8.350 -5.080 561.780
+8.360 -5.080 552.480
+8.370 -5.080 583.500
+Lock result: 1
+T810 Lock
+8.370 -5.080 0.057
+Lock result: 2
+
+Finished at Mon, 13 Mar 2017 10:49:50
+Locking duration 65 seconds
+T780 and T810 after locking 588.708 0.057 
+
+
+####################
+Target T780: 600.000 	 Tolerance 0.06 ~ 36.000
+Target T810: 0.058 	 Tolerance 0.04 ~ 0.002
+Time start: 10:50:42
+Initial Transmission: T780 567.747 T810 0.057 
+
+Do not need to lock 
+Locking result: 1 
+Finished at Mon, 13 Mar 2017 10:50:42
+Locking duration 0 seconds
+T780 and T810 after locking 567.747 0.057 
+
+
+####################
+Target T780: 600.000 	 Tolerance 0.06 ~ 36.000
+Target T810: 0.058 	 Tolerance 0.04 ~ 0.002
+Time start: 10:54:29
+Initial Transmission: T780 544.031 T810 0.057 
+
+T780 Lock 
+8.370 -5.080 546.260
+8.380 -5.070 561.160
+8.390 -5.060 579.800
+Lock result: 1
+T810 Lock
+8.390 -5.060 0.057
+Lock result: 2
+
+Finished at Mon, 13 Mar 2017 10:55:13
+Locking duration 44 seconds
+T780 and T810 after locking 586.000 0.057 
+
+
+####################
+Target T780: 600.000 	 Tolerance 0.06 ~ 36.000
+Target T810: 0.058 	 Tolerance 0.04 ~ 0.002
+Time start: 10:56:05
+Initial Transmission: T780 577.732 T810 0.057 
+
+Do not need to lock 
+Locking result: 1 
+Finished at Mon, 13 Mar 2017 10:56:05
+Locking duration 0 seconds
+T780 and T810 after locking 577.732 0.057 
+
+
+####################
+Target T780: 600.000 	 Tolerance 0.06 ~ 36.000
+Target T810: 0.058 	 Tolerance 0.04 ~ 0.002
+Time start: 10:59:48
+Initial Transmission: T780 584.268 T810 0.057 
+
+Do not need to lock 
+Locking result: 1 
+Finished at Mon, 13 Mar 2017 10:59:48
+Locking duration 0 seconds
+T780 and T810 after locking 584.268 0.057 
+
+
+####################
+Target T780: 600.000 	 Tolerance 0.06 ~ 36.000
+Target T810: 0.058 	 Tolerance 0.04 ~ 0.002
+Time start: 11:04:06
+Initial Transmission: T780 568.802 T810 0.057 
+
+Do not need to lock 
+Locking result: 1 
+Finished at Mon, 13 Mar 2017 11:04:06
+Locking duration 0 seconds
+T780 and T810 after locking 568.802 0.057 
+
+
+####################

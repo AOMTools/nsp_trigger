@@ -1,0 +1,26 @@
+Target T780: 900.000 	 Tolerance 0.06 ~ 54.000
+Target T810: 0.058 	 Tolerance 0.04 ~ 0.002
+Time start: 12:06:07
+Initial Transmission: T780 878.621 T810 0.059 
+
+Do not need to lock 
+Locking result: 1 
+Finished at Thu, 16 Mar 2017 12:06:07
+Locking duration 0 seconds
+T780 and T810 after locking 878.621 0.059 
+
+
+####################
+Target T780: 900.000 	 Tolerance 0.06 ~ 54.000
+Target T810: 0.058 	 Tolerance 0.04 ~ 0.002
+Time start: 12:06:53
+Initial Transmission: T780 870.302 T810 0.059 
+
+Do not need to lock 
+Locking result: 1 
+Finished at Thu, 16 Mar 2017 12:06:53
+Locking duration 0 seconds
+T780 and T810 after locking 870.302 0.059 
+
+
+####################

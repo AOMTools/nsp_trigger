@@ -1,0 +1,89 @@
+Target T780: 500.000 	 Tolerance 0.08 ~ 40.000
+Target T810: 0.034 	 Tolerance 0.05 ~ 0.002
+Time start: Thu, 16 Feb 2017 15:30:26
+Initial Transmission: T780 518.837 T810 0.035 
+
+Do not need to lock 
+Locking result: 1 
+T780 and T810 after locking 518.837 0.035 
+
+
+####################
+Target T780: 500.000 	 Tolerance 0.08 ~ 40.000
+Target T810: 0.034 	 Tolerance 0.05 ~ 0.002
+Time start: Thu, 16 Feb 2017 15:34:12
+Initial Transmission: T780 538.385 T810 0.035 
+
+Do not need to lock 
+Locking result: 1 
+T780 and T810 after locking 538.385 0.035 
+
+
+####################
+Target T780: 500.000 	 Tolerance 0.08 ~ 40.000
+Target T810: 0.034 	 Tolerance 0.05 ~ 0.002
+Time start: Thu, 16 Feb 2017 15:38:16
+Initial Transmission: T780 525.537 T810 0.035 
+
+Do not need to lock 
+Locking result: 1 
+T780 and T810 after locking 525.537 0.035 
+
+
+####################
+Target T780: 500.000 	 Tolerance 0.08 ~ 40.000
+Target T810: 0.034 	 Tolerance 0.05 ~ 0.002
+Time start: Thu, 16 Feb 2017 15:42:19
+Initial Transmission: T780 539.000 T810 0.034 
+
+Do not need to lock 
+Locking result: 1 
+T780 and T810 after locking 539.000 0.034 
+
+
+####################
+Target T780: 500.000 	 Tolerance 0.08 ~ 40.000
+Target T810: 0.034 	 Tolerance 0.05 ~ 0.002
+Time start: Thu, 16 Feb 2017 15:46:03
+Initial Transmission: T780 543.726 T810 0.035 
+
+T780 Lock 
+8.000 -4.470 550.220
+8.010 -4.460 532.860
+Lock result: 1
+T810 Lock
+8.010 -4.460 0.035
+Lock result: 2
+
+T780 and T810 after locking 521.489 0.034 
+
+
+####################
+Target T780: 500.000 	 Tolerance 0.08 ~ 40.000
+Target T810: 0.034 	 Tolerance 0.05 ~ 0.002
+Time start: Thu, 16 Feb 2017 15:47:21
+Initial Transmission: T780 541.208 T810 0.035 
+
+T780 Lock 
+8.010 -4.460 557.260
+8.020 -4.460 516.680
+Lock result: 1
+T810 Lock
+8.020 -4.460 0.035
+Lock result: 2
+
+T780 and T810 after locking 524.370 0.034 
+
+
+####################
+Target T780: 500.000 	 Tolerance 0.08 ~ 40.000
+Target T810: 0.034 	 Tolerance 0.05 ~ 0.002
+Time start: Thu, 16 Feb 2017 15:48:38
+Initial Transmission: T780 525.521 T810 0.034 
+
+Do not need to lock 
+Locking result: 1 
+T780 and T810 after locking 525.521 0.034 
+
+
+####################
